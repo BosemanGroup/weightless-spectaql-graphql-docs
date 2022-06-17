@@ -93,7 +93,8 @@
     "microfiber": "^1.0.1",
     "sass": "^1.32.13",
     "sync-request": "^6.1.0",
-    "tmp": "0.2.1"
+    "tmp": "0.2.1",
+    "spectaql": "^1.2.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
@@ -104,7 +105,7 @@
     "bdd-lazy-var": "^2.6.0",
     "chai": "^4.3.0",
     "chai-exclude": "^2.0.2",
-    "eslint": "^8.10.0",
+    "eslint": "^7.12.1",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-mocha": "9",
     "eslint-plugin-node": "^11.1.0",

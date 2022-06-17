@@ -1,21 +1,236 @@
 {
   "OBJECT": {
-    "SecretType": {
-      "documentation": { "undocumented": true }
-    },
-    "MyType": {
+    "Debt": {
       "fields": {
-        "nonRequiredField": {
-          "documentation": { "example": "Metadata example of `nonRequiredField`"}
+        "id": {
+          "documentation": { "example": "123e4567-e89b-12d3-a456-426614174000"}
+        },
+        "type": {
+          "documentation": { "example": "credit"}
+        },
+        "subtype": {
+          "documentation": { "example": "checking"}
+        },
+        "providerId": {
+          "documentation": { "example": "123e4567-e89b-12d3-a456-426614174000"}
+        },
+        "providerName": {
+          "documentation": { "example": "HSBC"}
+        },
+        "apr": {
+          "documentation": { "example": 5.5}
+        },
+        "currency": {
+          "documentation": { "example": "usd"}
+        },
+        "currentBalance": {
+          "documentation": { "example": 710.45}
+        },
+        "lastStatementBalance": {
+          "documentation": { "example": 710.45}
+        },
+        "lastStatementIssueDate": {
+          "documentation": { "example": "2022-05-01"}
+        },
+        "minimumPayment": {
+          "documentation": { "example": 125.45}
+        },
+        "nextPaymentDueDate": {
+          "documentation": { "example": "2022-06-01"}
+        }
+      }
+    },
+    "RepaymentSchedule": {
+      "fields": {
+        "id": {
+          "documentation": {
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        },
+        "enabled": {
+          "documentation": {
+            "example": true
+          }
+        },
+        "amount": {
+          "documentation": {
+            "example": 125.45
+          }
+        },
+        "currency": {
+          "documentation": {
+            "example": "usd"
+          }
+        },
+        "dayOfMonth": {
+          "documentation": {
+            "example": 20
+          }
+        }
+      }
+    },
+    "LinkToken": {
+      "fields": {
+        "token": {
+          "documentation": {
+            "example": "link-sandbox-af1a0311-da53-4636-b754-dd15cc058176"
+          }
+        },
+        "expiryDateTime": {
+          "documentation": {
+            "example": "2020-03-27T12:56:34Z"
+          }
+        }
+      }
+    },
+    "Refinance": {
+      "fields": {
+        "aprPercentage": {
+          "documentation": {
+            "example": 10.5
+          }
+        },
+        "fee": {
+          "documentation": {
+            "example": 25225
+          }
+        },
+        "currency": {
+          "documentation": {
+            "example": "usd"
+          }
+        }
+      }
+    },
+    "RecommendedRepayment": {
+      "fields": {
+        "amount": {
+          "documentation": {
+            "example": 125.45
+          }
+        },
+        "currency": {
+          "documentation": {
+            "example": "usd"
+          }
+        },
+        "description": {
+          "documentation": {
+            "example": "Increase your monthly payments by £100 to save £567 of interest payments."
+          }
+        }
+      }
+    },
+    "MinRepaymentAmount": {
+      "fields": {
+        "amount": {
+          "documentation": {
+            "example": 125.45
+          }
+        },
+        "currency": {
+          "documentation": {
+            "example": "usd"
+          }
+        }
+      }
+    },
+    "Repayment": {
+      "fields": {
+        "id": {
+          "documentation": {
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        },
+        "debtId": {
+          "documentation": {
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        },
+        "amount": {
+          "documentation": {
+            "example": 125.45
+          }
+        },
+        "currency": {
+          "documentation": {
+            "example": "usd"
+          }
+        },
+        "dateCreated": {
+          "documentation": {
+            "example": "2020-04-13"
+          }
+        }
+      }
+    },
+    "CreateRepaymentInput": {
+      "fields": {
+        "debtId": {
+          "documentation": {
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        },
+        "amount": {
+          "documentation": {
+            "example": 125.45
+          }
+        },
+        "currency": {
+          "documentation": {
+            "example": "usd"
+          }
+        }
+      }
+    },
+    "GetRepaymentsInput": {
+      "fields": {
+        "id": {
+          "documentation": {
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        },
+        "count": {
+          "documentation": {
+            "example": 10
+          }
+        },
+        "offset": {
+          "documentation": {
+            "example": 2
+          }
+        },
+        "startDate": {
+          "documentation": {
+            "example": "2020-04-01"
+          }
+        },
+        "endDate": {
+          "documentation": {
+            "example": "2020-05-01"
+          }
         }
       }
     },
     "Query": {
       "fields": {
-        "myQuery": {
+        "debt": {
           "args": {
-            "nonReqQueryArg": {
-              "documentation": { "example": "Metadata example of `nonReqQueryArg`" }
+            "id": {
+              "documentation": {
+                "example": "123e4567-e89b-12d3-a456-426614174000"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Mutation": {
+      "fields": {
+        "savePublicToken": {
+          "args": {
+            "publicToken": {
+              "documentation": { "example": "public-sandbox-5c224a01-8314-4491-a06f-39e193d5cddc" }
             }
           }
         }

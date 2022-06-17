@@ -1,180 +1,105 @@
-"This is a `DateTime` scalar"
-scalar DateTime
-
-"This is a Phone"
-scalar PhoneNumber
-
-scalar URL
-scalar JSON
-scalar JSONObject
-scalar Void
-scalar Byte
-
-"Anything with an ID can be a node"
-interface Node {
-  "A unique identifier"
-  id: String!
+type Debt {
+    id: ID!
+    type: String!
+    subtype: String!
+    providerId: ID!
+    providerName: String!
+    apr: Float!
+    currency: String!
+    currentBalance:  Float!
+    lastStatementBalance:  Float!
+    lastStatementIssueDate:  String!
+    minimumPayment: Float!
+    nextPaymentDueDate: String!
 }
 
-"`Markdown` and reference interpolation like [`[String!]!`]({{Types.String}}) are supported"
-type SimpleTypeOne implements Node {
-  id: String!
-  "`Markdown` and reference interpolation like [`[String!]!`]({{Types.String}}) are supported"
-  myType: [MyType!]!
+type RepaymentSchedule {
+    id: ID!
+    enabled: Boolean!
+    amount: Float!
+    currency: String!
+    dayOfMonth: Int!
 }
 
-type SimpleTypeTwo {
-  simpleTypeTwoField: String
+type LinkToken {
+    token: String!
+    expiryDateTime: String!
 }
 
-"A Union of `SimpleTypeOne` and `SimpleTypeTwo`. `Markdown` and reference interpolation like [`[String!]!`]({{Types.String}}) are supported"
-union SimpleTypes =
-  SimpleTypeOne
-  | SimpleTypeTwo
-
-
-"`Markdown` and reference interpolation like [`[String!]!`]({{Types.String}}) and [`myQuery`]({{Queries.myQuery}}) and [`myMutation`]({{Mutations.myMutation}}) are supported"
-type MyType {
-  url: URL,
-  json: JSON,
-  jso: JSONObject,
-  vd: Void,
-  byte: Byte,
-  createdAt: DateTime,
-  "`Markdown` and reference interpolation like [`[String!]!`]({{Types.String}}) are supported"
-  nonRequiredField(
-    "`Markdown` and reference interpolation like [`[String!]!`]({{Types.String}}) are supported"
-    nonRequiredArg: String = "some default string"
-    reqArg: String!
-    reqArrayArg: [String]!
-    dblReqArrayArg: [String!]!
-  ): String
-
-  requiredField: String! @deprecated(reason: "`requiredField` is going away")
-
-  episode: EpisodeEnum!
-
-  requiredArrayField: [String]!
-
-  doubleRequiredArrayField: [String!]!
+type Refinance {
+    aprPercentage: Float!
+    fee: Float!
+    currency: String!
 }
 
-"This is a type that should probably be undocumented. Metadata will indicate this should be hidden"
-type SecretType {
-  secret: String!
+type RecommendedRepayment {
+    amount: Float!
+    currency: String!
+    description: String!
 }
 
-"These are very important `enum`s. `Markdown` and reference interpolation like [`[String!]!`]({{Types.String}}) are supported"
-enum EpisodeEnum {
-  "Who is Luke? `Markdown` and reference interpolation like [`[String!]!`]({{Types.String}}) are supported"
-  NEWHOPE @deprecated(reason: "`NEWHOPE` is going away")
-  "Who is Darth?"
-  EMPIRE
-  "Who are the Ewoks?"
-  JEDI
+type MinRepaymentAmount {
+    amount: Float!
+    currency: String!
 }
 
-"Something interesting about my `Queries`."
+type Repayment {
+    id: ID!
+    debtId: ID!
+    amount: Float!
+    currency: String!
+    dateCreated: String!
+}
+
+enum LinkType {
+  CREDIT
+}
+
+input CreateRepaymentInput {
+    debtId: ID!
+    amount: Float!
+    currency: String!
+}
+
+input GetRepaymentsInput {
+    id: ID!
+    count: Int!
+    offset: Int!
+    startDate: String!
+    endDate: String!
+}
+
+"Description for query"
 type Query {
-  "This will be removed due to SecretType being removed"
-  secrets: [SecretType],
-
-  "`Markdown` and reference interpolation like [`[String!]!`]({{Types.String}}) are supported"
-  myQuery(
-    "`Markdown` and reference interpolation like [`[String!]!`]({{Types.String}}) are supported"
-    nonReqQueryArg: String = "some default string"
-    reqQueryArg: String
-    reqQueryArrayArg: [String]!
-    dblReqQueryArrayArg: [String!]!
-  ): String @deprecated(reason: "`myQuery` is going away")
-
-  "This Query has the same name as a Mutation"
-  stringThing: String
-
-  getInts: [Int]
-
-  "I return a list of the SimpleType Union"
-  simpleTypes: [SimpleTypes]
-
-  "I'm the optionals query"
-  optionalsQuery(
-    optionalArg: [String]
-  ): [String]
-
-  requiredsQuery(
-    dblReqArg: [String!]!
-  ): [String!]!
-
-  myTypes: [MyType]
-
-  enumsQuery(
-    enums: [EpisodeEnum!]! = [EMPIRE, JEDI]
-    "enum defaults should get literalized"
-    enum: EpisodeEnum! = EMPIRE
-    "everything else should get JSON5.parsed"
-    ints: [Int] = [1,2,3]
-  ): String
-
-  nodeQuery(
-    id: String!
-  ): Node
-
-  "Without this Query, the `FilterInput` would not be shown"
-  filterInputQuery(
-    "Without this Query, the `FilterInput` would not be shown"
-    filter: FilterInput
-  ): MyType
-
-  "Without this Query, the `ContactInfoInput` would not be shown"
-  contactInfoInputQuery(
-    "Without this arg, the `ContactInfoInput` would not be shown"
-    input: ContactInfoInput,
-  ): MyType
+    "Retrieve the forecasted date to be debt free with the current monthly repayment schedule."
+    debtFreeDate: String!
+    "Retrieve the tip of the month, detailing recommendations on how you can improve your debt repayments."
+    tips: String!
+    "Retrieve an estimated APR for refinancing your debts"
+    refinance: Refinance!
+    "Retrieve the recommended monthly debt repayments. We calculate using xyz"
+    recommendedRepayment: RecommendedRepayment!
+    "Retrieve the minimum repayment amount required for each debt that you have linked."
+    minRepaymentAmount: MinRepaymentAmount!
+    "Returns a list of debt repayments"
+    repayments: [Repayment!]!
+    "Retrieve the monthly repayment schedule for your debts"
+    repaymentSchedule: RepaymentSchedule
+    "Retrieves a debt that you have linked."
+    debt(id: ID!): Debt
+    "Returns a list of debts that you have linked."
+    debts: [Debt!]!
 }
 
 type Mutation {
-  "This Mutation has the same name as a Query"
-  stringThing(anArgument: String): String
-
-  "`Markdown` and reference interpolation like [`[String!]!`]({{Types.String}}) are supported"
-  myMutation(
-    "`Markdown` and reference interpolation like [`[String!]!`]({{Types.String}}) are supported"
-    nonReqMutationArg: String = "some default string"
-    reqMutationArg: String!
-    reqMutationArrayArg: [String]!
-    dblReqMutationArrayArg: [String!]!
-  ): String
-}
-
-type Subscription {
-  "The `myTypeUpdatedSubscription`, baby!"
-  myTypeUpdatedSubscription(input: ID): MyType!
-
-  "A subscription that will probably be removed when `SecretType` is removed"
-  secretTypeSubscription: SecretType!
-}
-
-"An Input Type for filtering things. `Markdown` and reference interpolation like [`[String!]!`]({{Types.String}}) are supported"
-input FilterInput {
-  "Comment for someField. `Markdown` and reference interpolation like [`[String!]!`]({{Types.String}}) are supported"
-  someField: Boolean = false
-  "Comment for anotherField"
-  anotherField: String
-  "Comment for episodeEnums"
-  episodeEnums: [EpisodeEnum!]
-}
-
-"ContactInfoInput description"
-input ContactInfoInput {
-  email: String
-  "Without this InputField, the `AddressInput` would not be shown"
-  address: AddressInput = { planet: "Earth" }
-  phoneNumber: PhoneNumber
-}
-
-"AddresInput description"
-input AddressInput {
-  lat: String
-  lon: String
-  planet: String
+    "Returns a link token, which is required as a parameter when initializing Link. Once Link has been initialized, it returns a public token, this should be included in a request to the savePublicToken endpoint so we can access your linked data."
+    createLinkToken(type: LinkType!): LinkToken
+    "Save a Link public token that has been obtained from the onSuccess callback of Link. The public_token expires after 30 minutes. The public token allows us to access your linked data."
+    savePublicToken(publicToken: String!): Boolean
+    "Update the monthly repayment schedule for your debts"
+    updateRepaymentSchedule(amount: Float!, currency: String!, dayOfMonth: Int!, enabled: Boolean!): RepaymentSchedule
+    "Update the enabled field of the monthly repayment schedule for your debts"
+    updateRepaymentScheduleEnabled(enabled: Boolean!): RepaymentSchedule
+    "Manually create a repayment towards your debts. We will calculate which debt or debts this repayment will be made towards to reduce the overall amount you need to repay to be debt free."
+    createRepayment(input: CreateRepaymentInput!): Repayment
 }
