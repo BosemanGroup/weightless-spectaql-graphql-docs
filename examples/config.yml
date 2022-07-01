@@ -34,10 +34,11 @@ info:
 servers:
   - url: https://staging.weightless.money/graphql
     description: Staging
-  - url: https://weightless.money/graphql
+#  - url: https://weightless.money/graphql
+  - url: https://yu8gaa8hh2.execute-api.us-west-2.amazonaws.com/dev/graphql
     description: Production
     production: true
-    headers:
-      - name: Authorization
-        example: Bearer <YOUR_TOKEN_HERE>
+#    headers:
+#      - name: Authorization
+#        example: Bearer <YOUR_TOKEN_HERE>
 #        comment: Your foo from bar
