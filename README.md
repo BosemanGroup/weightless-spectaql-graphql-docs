@@ -37,7 +37,7 @@ npm run develop ./examples/config.yml
 #### Deploy
 - Generate docs:
 ```
-npx spectaql examples/config.yml
+npm run develop ./examples/config.yml
 ```
 - Copy public/ and replace docs/ 
 - Commit and push changes to main Git branch
